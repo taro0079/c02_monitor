@@ -1,7 +1,9 @@
 import subprocess
 import re
 import requests, json
-
+import database
+from sqlalchemy.orm import sessionmaker
+import co2_concentrate
 out = subprocess.check_output(['sudo', 'python3', '-m', 'mh_z19']).decode('utf-8')
 
 
@@ -17,3 +19,10 @@ requests.post(WEB_HOOK_URL, data = json.dumps({
     'icon_emoji': u':smile_cat:',
     'link_names': 1,
 }))
+
+maker = sessionmaker(bind=database.ENGINE)
+session = maker()
+co2 = co2_concentrate.Co2Concentrate()
+co2.concentrate = CO2_conce
+session.add(co2)
+session.commit()
